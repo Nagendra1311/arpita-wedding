@@ -3,8 +3,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Maximize2, X, Sparkles, Layers } from "lucide-react";
+import { Maximize2, X, Layers } from "lucide-react";
 import { weddingConfig } from "@/config/weddingConfig";
+import { Card3DTilt } from "./Card3DTilt";
 
 export function CardImageGallery() {
   const { cardImages, couple } = weddingConfig;
@@ -22,7 +23,7 @@ export function CardImageGallery() {
           </span>
         </div>
         <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#4A0E2E] tracking-wider uppercase">
-          Invitation Leaflets
+          Royal Wedding Invitation
         </h2>
         <div className="flex items-center justify-center gap-3 my-3">
           <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#D4AF37]" />
@@ -43,7 +44,7 @@ export function CardImageGallery() {
                 : "bg-white/80 text-[#4A0E2E] border border-[#4A0E2E]/20 hover:bg-white"
             }`}
           >
-            Cover Leaflet
+            Front Cover Card
           </button>
           <button
             onClick={() => setActiveTab("details")}
@@ -53,44 +54,46 @@ export function CardImageGallery() {
                 : "bg-white/80 text-[#4A0E2E] border border-[#4A0E2E]/20 hover:bg-white"
             }`}
           >
-            Ceremony Leaflet
+            Ceremony Details Card
           </button>
         </div>
       </div>
 
-      {/* Card Display Container */}
+      {/* Card Display Container with 3D Tilt */}
       <div className="flex justify-center">
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4 }}
-          onClick={() => setSelectedImage(activeTab === "cover" ? cardImages.cover : cardImages.details)}
-          className="group relative cursor-pointer rounded-2xl overflow-hidden shadow-[0_10px_35px_rgba(74,14,46,0.25)] border-2 border-[#D4AF37]/60 max-w-2xl w-full bg-black/5"
-        >
-          {/* Card Image */}
-          <div className="relative w-full aspect-[4/3] sm:aspect-[1.414/1]">
-            <Image
-              src={activeTab === "cover" ? cardImages.cover : cardImages.details}
-              alt={`${couple.fullName} Wedding Invitation Card`}
-              fill
-              className="object-contain transition-transform duration-500 group-hover:scale-[1.02]"
-              sizes="(max-width: 768px) 100vw, 800px"
-              priority
-            />
-          </div>
+        <Card3DTilt intensity={8} glare={true} className="max-w-2xl w-full">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            onClick={() => setSelectedImage(activeTab === "cover" ? cardImages.cover : cardImages.details)}
+            className="group relative cursor-pointer rounded-2xl overflow-hidden shadow-[0_15px_40px_rgba(74,14,46,0.22)] border-2 border-[#D4AF37]/60 w-full bg-black/5"
+          >
+            {/* Card Image */}
+            <div className="relative w-full aspect-[4/3] sm:aspect-[1.414/1]">
+              <Image
+                src={activeTab === "cover" ? cardImages.cover : cardImages.details}
+                alt={`${couple.fullName} Wedding Invitation Card`}
+                fill
+                className="object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+                sizes="(max-width: 768px) 100vw, 800px"
+                priority
+              />
 
-          {/* Hover overlay hint */}
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/95 text-[#4A0E2E] font-serif text-xs uppercase tracking-wider font-bold shadow-lg">
-              <Maximize2 className="w-4 h-4 text-[#D4AF37]" />
-              <span>Tap to Zoom Fullscreen</span>
+              {/* Hover overlay hint */}
+              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 text-[#4A0E2E] font-serif text-xs uppercase tracking-wider font-semibold shadow-lg backdrop-blur-sm">
+                  <Maximize2 className="w-3.5 h-3.5 text-[#D4AF37]" />
+                  <span>Tap to Enlarge</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </Card3DTilt>
       </div>
 
-      {/* FULLSCREEN ZOOM LIGHTBOX MODAL */}
+      {/* Lightbox Modal */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div
@@ -98,30 +101,34 @@ export function CardImageGallery() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedImage(null)}
-            className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-6"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md cursor-zoom-out"
           >
-            <button
-              onClick={() => setSelectedImage(null)}
-              className="absolute top-4 right-4 z-50 p-3 rounded-full bg-white/20 hover:bg-white/40 text-white transition-all shadow-lg"
-              aria-label="Close image"
-            >
-              <X className="w-6 h-6" />
-            </button>
-
             <motion.div
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.9 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative max-w-5xl max-h-[92vh] w-full h-full flex items-center justify-center"
+              className="relative max-w-4xl max-h-[90vh] w-full h-full flex items-center justify-center"
             >
-              <Image
-                src={selectedImage}
-                alt="Enlarged Wedding Card"
-                width={1200}
-                height={850}
-                className="max-h-[88vh] w-auto object-contain rounded-lg shadow-2xl"
-              />
+              <div className="relative w-full h-full max-h-[85vh]">
+                <Image
+                  src={selectedImage}
+                  alt="Expanded Wedding Invitation Card"
+                  fill
+                  className="object-contain drop-shadow-2xl"
+                  sizes="100vw"
+                  priority
+                />
+              </div>
+
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedImage(null)}
+                className="absolute top-2 right-2 p-3 rounded-full bg-black/60 text-white hover:bg-black/90 transition-colors shadow-lg cursor-pointer"
+                aria-label="Close enlarged card"
+              >
+                <X className="w-6 h-6" />
+              </button>
             </motion.div>
           </motion.div>
         )}

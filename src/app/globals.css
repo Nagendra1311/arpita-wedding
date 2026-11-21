@@ -29,6 +29,31 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* 3D Perspective & Transform Utilities */
+.perspective-800 {
+  perspective: 800px;
+}
+.perspective-1000 {
+  perspective: 1000px;
+}
+.perspective-1200 {
+  perspective: 1200px;
+}
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* 3D Gold Glow and Bevels */
+.gold-3d-shadow {
+  box-shadow: 0 20px 50px -10px rgba(212, 175, 55, 0.28), 0 10px 20px -5px rgba(74, 14, 46, 0.15);
+}
+.gold-bevel {
+  box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(212, 175, 55, 0.4);
+}
+
 /* Custom Gold Shimmer Text Animation */
 .text-shimmer {
   background: linear-gradient(

@@ -1,4 +1,4 @@
-// File: C:\Users\Abcom\Documents\testing\src\app\video\page.tsx
+// File: C:\Users\nagen\Documents\GitHub\arpita-wedding\src\app\video\page.tsx
 import * as entry from '../../../../src/app/video/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

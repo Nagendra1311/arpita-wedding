@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Film, Heart, ArrowUp, Share2, Instagram, Youtube, Facebook, MessageCircle } from "lucide-react";
+import { Film, ArrowUp, Instagram, Youtube, Facebook, MessageCircle, Sparkles } from "lucide-react";
 import { weddingConfig } from "@/config/weddingConfig";
-import { RosePetals3D } from "./RosePetals3D";
+import { GoldenParticles } from "./GoldenParticles";
+import { BackgroundMusic } from "./BackgroundMusic";
 import { HeroLuxury3D } from "./HeroLuxury3D";
 import { LoveStory3D } from "./LoveStory3D";
 import { WeddingEvents3D } from "./WeddingEvents3D";
@@ -26,10 +27,13 @@ export function WeddingCardPage() {
   return (
     <div className="relative min-h-screen bg-[#FFF9FB] text-[#2C061A] selection:bg-[#FDE68A] selection:text-[#4A0E2E] overflow-x-hidden font-sans">
       
-      {/* 3D FLOATING ROSE PETALS (Canvas with 3D depth-of-field) */}
-      <RosePetals3D />
+      {/* 3D FLOATING GOLDEN AMBIENT STARDUST (Gently drifts upwards, replaces falling top leaves) */}
+      <GoldenParticles density={28} />
 
-      {/* 1. HERO SECTION (3D GLASSMORPHIC DESIGN MATCHING ATTACHED IMAGE) */}
+      {/* AUTOPLAYING ROYAL WEDDING BACKGROUND MUSIC (With Floating Disc & Equalizer Control) */}
+      <BackgroundMusic />
+
+      {/* 1. HERO SECTION (3D GLASSMORPHIC DESIGN WITH CARD TILT & COUNTDOWN) */}
       <HeroLuxury3D />
 
       {/* AUSPICIOUS GANESH INVOCATION & BLESSINGS BANNER */}
@@ -39,33 +43,37 @@ export function WeddingCardPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.7 }}
-          className="p-4 rounded-3xl bg-white/70 backdrop-blur-md border border-[#FDE68A]/60 shadow-[0_8px_25px_rgba(212,175,55,0.12)]"
+          className="p-5 rounded-3xl bg-white/80 backdrop-blur-md border border-[#FDE68A]/70 shadow-[0_12px_35px_rgba(212,175,55,0.16)] relative overflow-hidden group hover:shadow-[0_16px_45px_rgba(212,175,55,0.22)] transition-all"
         >
-          <div className="inline-block p-1.5 px-3 rounded-full bg-[#4A0E2E]/10 text-[#4A0E2E] text-xs font-serif uppercase tracking-widest font-bold mb-2">
-            🕉️ {shloka.sanskritTop}
+          {/* Subtle top gold reflection */}
+          <div className="absolute inset-x-4 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
+
+          <div className="inline-flex items-center gap-1.5 p-1.5 px-4 rounded-full bg-[#4A0E2E]/10 text-[#4A0E2E] text-xs font-serif uppercase tracking-widest font-bold mb-2 border border-[#D4AF37]/30">
+            <span>🕉️</span>
+            <span>{shloka.sanskritTop}</span>
           </div>
           <p className="font-serif text-xs sm:text-sm text-[#7A1D49] leading-relaxed whitespace-pre-line font-medium max-w-md mx-auto">
             {shloka.sanskritMain}
           </p>
-          <div className="mt-3 pt-3 border-t border-stone-200/60 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-stone-600 font-serif">
+          <div className="mt-3.5 pt-3 border-t border-[#D4AF37]/20 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-stone-600 font-serif">
             <span>D/o {family.brideParents}</span>
-            <span className="text-[#D4AF37]">&bull;</span>
+            <span className="text-[#D4AF37] font-bold">&bull;</span>
             <span>S/o {family.groomParents}</span>
           </div>
         </motion.div>
       </section>
 
-      {/* 2. OUR LOVE STORY (3D POLAROIDS MATCHING ATTACHED IMAGE) */}
+      {/* 2. OUR LOVE STORY (3D POLAROIDS WITH INTERACTIVE DEPTH) */}
       <LoveStory3D />
 
-      {/* 3. WEDDING EVENTS (HORIZONTAL TIMELINE WITH GLOWING 3D ORBS) */}
+      {/* 3. WEDDING EVENTS (3D GLASS CEREMONIAL CARDS) */}
       <WeddingEvents3D />
 
       {/* 4. INTERACTIVE SCRATCH CARD DATE REVEAL */}
-      <section className="py-6">
-        <div className="text-center mb-2 px-4">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#4A0E2E]/10 border border-[#FDE68A] text-[#4A0E2E] mb-2">
-            <span className="text-xs">✨</span>
+      <section className="py-8">
+        <div className="text-center mb-3 px-4">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#4A0E2E]/10 border border-[#FDE68A] text-[#4A0E2E] mb-2 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
             <span className="font-serif text-[11px] uppercase tracking-widest font-bold">
               Special Moment
             </span>
@@ -94,10 +102,10 @@ export function WeddingCardPage() {
       {/* 8. WARDROBE PLANNER SECTION */}
       <WardrobePlanner3D />
 
-      {/* 9. PRINTED INVITATION LEAFLETS VIEWER */}
+      {/* 9. PRINTED INVITATION CARD VIEWER */}
       <CardImageGallery />
 
-      {/* 10. LUXURY 3D FOOTER (MATCHING BOTTOM OF DESIGN REFERENCE) */}
+      {/* 10. LUXURY 3D FOOTER */}
       <footer className="relative w-full bg-gradient-to-b from-[#FFFDF9] via-[#FFF1F6] to-[#FFE4EC] pt-12 pb-16 px-4 text-center border-t border-[#FDE68A]/40 overflow-hidden">
         
         {/* Soft floating background glow */}
@@ -120,7 +128,7 @@ export function WeddingCardPage() {
             {couple.fullName} &bull; {event.weddingDate}
           </p>
 
-          {/* Social Icons matching design */}
+          {/* Social Icons with 3D elevation */}
           <div className="flex items-center justify-center gap-3 my-4">
             {[
               { icon: Instagram, label: "Instagram", url: "https://instagram.com" },
@@ -135,7 +143,7 @@ export function WeddingCardPage() {
                   href={soc.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-[#B45309]/15 hover:bg-[#B45309]/30 text-[#B45309] border border-[#B45309]/30 flex items-center justify-center transition-all duration-300 shadow-sm transform hover:scale-110"
+                  className="w-10 h-10 rounded-full bg-white/90 hover:bg-[#D4AF37] hover:text-[#2C061A] text-[#B45309] border border-[#D4AF37]/40 flex items-center justify-center transition-all duration-300 shadow-[0_4px_12px_rgba(180,83,9,0.15)] transform hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(212,175,55,0.35)]"
                   aria-label={soc.label}
                 >
                   <IconComp className="w-4 h-4" />
@@ -145,7 +153,7 @@ export function WeddingCardPage() {
           </div>
 
           {/* Couple Hashtag Badge */}
-          <div className="mt-2 inline-block px-4 py-1 rounded-full bg-white/70 border border-[#FDE68A] text-xs font-serif tracking-widest text-[#B45309] font-bold shadow-sm">
+          <div className="mt-2 inline-block px-4 py-1.5 rounded-full bg-white/80 border border-[#FDE68A] text-xs font-serif tracking-widest text-[#B45309] font-bold shadow-sm">
             {couple.hashtag}
           </div>
 
@@ -153,10 +161,10 @@ export function WeddingCardPage() {
           <div className="mt-6">
             <Link
               href="/video"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/90 hover:bg-white text-[#4A0E2E] border border-[#D4AF37] font-serif text-xs uppercase tracking-wider font-bold shadow-md hover:shadow-lg transition-all active:scale-95"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/95 hover:bg-white text-[#4A0E2E] border border-[#D4AF37] font-serif text-xs uppercase tracking-wider font-bold shadow-[0_4px_16px_rgba(212,175,55,0.25)] hover:shadow-[0_8px_25px_rgba(212,175,55,0.35)] transition-all active:scale-95 transform hover:-translate-y-0.5"
             >
               <Film className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>Watch Video Invitation Backup &rarr;</span>
+              <span>Watch Video Invitation &rarr;</span>
             </Link>
           </div>
 

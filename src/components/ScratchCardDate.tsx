@@ -2,17 +2,19 @@
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Calendar, Clock, RotateCcw, Heart, CheckCircle2, Share2 } from "lucide-react";
+import { Sparkles, Calendar, Clock, RotateCcw, Heart, Eye } from "lucide-react";
 import { triggerCelebration, playChimeSound } from "./CelebrationEffects";
 import { weddingConfig } from "@/config/weddingConfig";
 
 export function ScratchCardDate() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const lastPointRef = useRef<{ x: number; y: number } | null>(null);
+  const isScratchingRef = useRef(false);
+  const lastCheckTimeRef = useRef(0);
 
   const [isScratched, setIsScratched] = useState(false);
   const [scratchPercent, setScratchPercent] = useState(0);
-  const [isDrawing, setIsDrawing] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number; minutes: number; seconds: number }>({
     days: 0,
@@ -54,15 +56,17 @@ export function ScratchCardDate() {
     if (!ctx) return;
 
     const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
+    const w = rect.width || 360;
+    const h = rect.height || 390;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+
+    ctx.save();
     ctx.scale(dpr, dpr);
 
-    const w = rect.width;
-    const h = rect.height;
-
-    // Reset composite operation
+    // Reset composite operation to draw foil
     ctx.globalCompositeOperation = "source-over";
 
     // 1. Base Rich Champagne Rose Gold Metallic Gradient
@@ -92,20 +96,16 @@ export function ScratchCardDate() {
     ctx.setLineDash([]);
 
     // 3. Corner Ornaments
-    const drawCorner = (cx: number, cy: number, rot: number) => {
-      ctx.save();
-      ctx.translate(cx, cy);
-      ctx.rotate((rot * Math.PI) / 180);
+    const drawCorner = (cx: number, cy: number) => {
       ctx.fillStyle = "#4A0E2E";
       ctx.beginPath();
-      ctx.arc(0, 0, 6, 0, Math.PI * 2);
+      ctx.arc(cx, cy, 6, 0, Math.PI * 2);
       ctx.fill();
-      ctx.restore();
     };
-    drawCorner(10, 10, 0);
-    drawCorner(w - 10, 10, 90);
-    drawCorner(w - 10, h - 10, 180);
-    drawCorner(10, h - 10, 270);
+    drawCorner(10, 10);
+    drawCorner(w - 10, 10);
+    drawCorner(w - 10, h - 10);
+    drawCorner(10, h - 10);
 
     // 4. Center Gold Wax Seal Emblem
     const centerX = w / 2;
@@ -117,7 +117,7 @@ export function ScratchCardDate() {
     sealGrad.addColorStop(1, "#785311");
     ctx.fillStyle = sealGrad;
     ctx.beginPath();
-    ctx.arc(centerX, centerY, 40, 0, Math.PI * 2);
+    ctx.arc(centerX, centerY, 42, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.strokeStyle = "#4A0E2E";
@@ -134,87 +134,31 @@ export function ScratchCardDate() {
     // 5. Instruction Typography on Gold Foil
     ctx.fillStyle = "#3D0C26";
     ctx.font = "bold 13px 'Montserrat', sans-serif";
-    ctx.fillText("✨ SCRATCH TO REVEAL ✨", centerX, centerY + 62);
+    ctx.fillText("✨ SCRATCH TO REVEAL ✨", centerX, centerY + 64);
 
     ctx.fillStyle = "#4A0E2E";
     ctx.font = "italic 300 12px 'Cormorant Garamond', serif";
-    ctx.fillText("Rub finger or mouse to unveil the wedding date", centerX, centerY + 82);
+    ctx.fillText("Rub finger or mouse to unveil the wedding date", centerX, centerY + 84);
+
+    ctx.restore();
 
     setIsScratched(false);
     setScratchPercent(0);
+    lastPointRef.current = null;
+    isScratchingRef.current = false;
   }, []);
 
   useEffect(() => {
     initCanvas();
-    window.addEventListener("resize", initCanvas);
-    return () => window.removeEventListener("resize", initCanvas);
+    const handleResize = () => {
+      initCanvas();
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [initCanvas]);
 
-  // Scratch Action
-  const scratch = (clientX: number, clientY: number) => {
-    const canvas = canvasRef.current;
-    if (!canvas || isScratched) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    setHasInteracted(true);
-    const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    const x = (clientX - rect.left) * dpr;
-    const y = (clientY - rect.top) * dpr;
-
-    ctx.globalCompositeOperation = "destination-out";
-
-    // Scratch with feather-edge gradient circle
-    const radius = 32 * dpr;
-    const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-    gradient.addColorStop(0, "rgba(0, 0, 0, 1)");
-    gradient.addColorStop(0.65, "rgba(0, 0, 0, 0.9)");
-    gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
-
-    ctx.fillStyle = gradient;
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2);
-    ctx.fill();
-
-    checkScratchProgress();
-  };
-
-  // Check how much percentage of the foil has been scratched
-  const checkScratchProgress = () => {
-    const canvas = canvasRef.current;
-    if (!canvas || isScratched) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const step = 18;
-    const w = canvas.width;
-    const h = canvas.height;
-    const imgData = ctx.getImageData(0, 0, w, h);
-    const pixels = imgData.data;
-    let totalSamples = 0;
-    let clearedSamples = 0;
-
-    for (let y = 0; y < h; y += step) {
-      for (let x = 0; x < w; x += step) {
-        const index = (y * w + x) * 4 + 3; // alpha channel
-        totalSamples++;
-        if (pixels[index] < 128) {
-          clearedSamples++;
-        }
-      }
-    }
-
-    const percent = Math.round((clearedSamples / totalSamples) * 100);
-    setScratchPercent(percent);
-
-    if (percent >= 38 && !isScratched) {
-      triggerReveal();
-    }
-  };
-
   // Trigger grand reveal with confetti & celebration
-  const triggerReveal = () => {
+  const triggerReveal = useCallback(() => {
     setIsScratched(true);
     setScratchPercent(100);
     triggerCelebration(0.5, 0.45);
@@ -227,34 +171,133 @@ export function ScratchCardDate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
     }
-  };
+  }, []);
+
+  // Check scratch progress with throttling
+  const checkScratchProgress = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || isScratched) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const now = Date.now();
+    if (now - lastCheckTimeRef.current < 120) return;
+    lastCheckTimeRef.current = now;
+
+    const step = 24;
+    const w = canvas.width;
+    const h = canvas.height;
+    if (w <= 0 || h <= 0) return;
+
+    try {
+      const imgData = ctx.getImageData(0, 0, w, h);
+      const pixels = imgData.data;
+      let totalSamples = 0;
+      let clearedSamples = 0;
+
+      for (let y = 0; y < h; y += step) {
+        for (let x = 0; x < w; x += step) {
+          const index = (y * w + x) * 4 + 3;
+          totalSamples++;
+          if (pixels[index] < 128) {
+            clearedSamples++;
+          }
+        }
+      }
+
+      const percent = Math.min(100, Math.round((clearedSamples / totalSamples) * 100));
+      setScratchPercent(percent);
+
+      if (percent >= 30) {
+        triggerReveal();
+      }
+    } catch {
+      // ignore security exceptions if any
+    }
+  }, [isScratched, triggerReveal]);
+
+  // Accurate Scratch Action with Line Interpolation and Correct DPI Mapping
+  const scratchAt = useCallback(
+    (clientX: number, clientY: number) => {
+      const canvas = canvasRef.current;
+      if (!canvas || isScratched) return;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      setHasInteracted(true);
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+
+      const x = (clientX - rect.left) * scaleX;
+      const y = (clientY - rect.top) * scaleY;
+
+      ctx.save();
+      ctx.globalCompositeOperation = "destination-out";
+
+      const radius = 38 * Math.max(scaleX, 1);
+      ctx.lineWidth = radius * 2;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+
+      if (lastPointRef.current) {
+        ctx.beginPath();
+        ctx.moveTo(lastPointRef.current.x, lastPointRef.current.y);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+      } else {
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+      lastPointRef.current = { x, y };
+
+      checkScratchProgress();
+    },
+    [isScratched, checkScratchProgress]
+  );
 
   // Mouse Handlers
   const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDrawing(true);
-    scratch(e.clientX, e.clientY);
+    isScratchingRef.current = true;
+    lastPointRef.current = null;
+    scratchAt(e.clientX, e.clientY);
   };
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDrawing) return;
-    scratch(e.clientX, e.clientY);
-  };
-  const handleMouseUp = () => setIsDrawing(false);
 
-  // Touch Handlers
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isScratchingRef.current) return;
+    scratchAt(e.clientX, e.clientY);
+  };
+
+  const handleMouseUp = () => {
+    isScratchingRef.current = false;
+    lastPointRef.current = null;
+    checkScratchProgress();
+  };
+
+  // Touch Handlers with passive-safe touch event handling
   const handleTouchStart = (e: React.TouchEvent) => {
-    setIsDrawing(true);
+    isScratchingRef.current = true;
+    lastPointRef.current = null;
     if (e.touches[0]) {
-      scratch(e.touches[0].clientX, e.touches[0].clientY);
+      scratchAt(e.touches[0].clientX, e.touches[0].clientY);
     }
   };
+
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDrawing) return;
+    if (!isScratchingRef.current) return;
     if (e.touches[0]) {
-      e.preventDefault();
-      scratch(e.touches[0].clientX, e.touches[0].clientY);
+      scratchAt(e.touches[0].clientX, e.touches[0].clientY);
     }
   };
-  const handleTouchEnd = () => setIsDrawing(false);
+
+  const handleTouchEnd = () => {
+    isScratchingRef.current = false;
+    lastPointRef.current = null;
+    checkScratchProgress();
+  };
 
   // Google Calendar Link generator
   const getGoogleCalendarUrl = () => {
@@ -277,7 +320,7 @@ export function ScratchCardDate() {
       {/* Container Frame with 3D Luxury Glass Arch styling */}
       <div
         ref={containerRef}
-        className="relative rounded-3xl p-1 bg-gradient-to-b from-[#FDE68A] via-[#D4AF37] to-[#4A0E2E] shadow-[0_20px_50px_rgba(212,175,55,0.25)]"
+        className="relative rounded-3xl p-1 bg-gradient-to-b from-[#FDE68A] via-[#D4AF37] to-[#4A0E2E] shadow-[0_25px_60px_rgba(212,175,55,0.28)] hover:shadow-[0_30px_70px_rgba(212,175,55,0.38)] transition-all duration-300"
       >
         <div className="relative rounded-[22px] overflow-hidden bg-gradient-to-b from-[#FFFDF9] via-[#FCF3F7] to-[#FDF0F5] border-2 border-[#D4AF37]/50 min-h-[390px] flex flex-col items-center justify-between p-6 text-center select-none shadow-inner">
           
@@ -377,29 +420,41 @@ export function ScratchCardDate() {
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
-              className="absolute inset-0 w-full h-full cursor-pointer z-20 touch-none rounded-[20px]"
+              style={{ touchAction: "none" }}
+              className="absolute inset-0 w-full h-full cursor-crosshair z-20 rounded-[20px]"
             />
           )}
 
           {/* HINT OVERLAY: Animated floating finger guide before first interaction */}
           {!hasInteracted && !isScratched && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0.75, 1, 0.75] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="pointer-events-none absolute bottom-5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#4A0E2E]/95 text-white backdrop-blur-md border border-[#FDE68A] shadow-lg"
-            >
-              <motion.span
-                animate={{ x: [-8, 8, -8] }}
-                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                className="text-base"
+            <div className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 w-full px-4">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0.85, 1, 0.85] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+                className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#4A0E2E]/95 text-white backdrop-blur-md border border-[#FDE68A] shadow-lg"
               >
-                👉
-              </motion.span>
-              <span className="font-serif text-[11px] tracking-wider uppercase text-[#FDE68A]">
-                Rub here to reveal
-              </span>
-            </motion.div>
+                <motion.span
+                  animate={{ x: [-8, 8, -8] }}
+                  transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                  className="text-base"
+                >
+                  👉
+                </motion.span>
+                <span className="font-serif text-[11px] tracking-wider uppercase text-[#FDE68A]">
+                  Rub with finger or mouse
+                </span>
+              </motion.div>
+
+              {/* Instant reveal shortcut button for convenience */}
+              <button
+                onClick={triggerReveal}
+                className="pointer-events-auto inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/90 hover:bg-white text-[#4A0E2E] text-[10px] font-serif uppercase tracking-wider font-bold border border-[#D4AF37] shadow-md transition-all active:scale-95"
+              >
+                <Eye className="w-3 h-3 text-[#D4AF37]" />
+                <span>Tap To Reveal Directly</span>
+              </button>
+            </div>
           )}
 
           {/* PROGRESS INDICATOR PILL */}

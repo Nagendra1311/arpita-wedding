@@ -49,6 +49,7 @@ export interface WeddingConfig {
   };
   media: {
     videoSrc: string;
+    musicSrc?: string;
   };
   animation: {
     logoHoldDurationSeconds: number;
@@ -139,6 +140,7 @@ export const weddingConfig: WeddingConfig = {
   },
   media: {
     videoSrc: "/invitation.mp4",
+    musicSrc: "/music/music.mp3",
   },
   animation: {
     logoHoldDurationSeconds: 2.5,
