@@ -1,40 +1,46 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { Volume2, VolumeX, Music, Disc } from "lucide-react";
+import { Volume2, VolumeX, Music, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { weddingConfig } from "@/config/weddingConfig";
 
 export function BackgroundMusic() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [hasInteracted, setHasInteracted] = useState(true);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [needsGesture, setNeedsGesture] = useState(false);
+  const userPausedRef = useRef(false);
 
   const musicSrc = weddingConfig.media?.musicSrc || "/music/music.mp3";
   const { couple } = weddingConfig;
 
-  // Start playback safely
-  const startAudio = useCallback(() => {
+  // Unmute & play with full sound
+  const playWithSound = useCallback(() => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || userPausedRef.current) return;
 
-    audio.volume = 0.75;
-    const playPromise = audio.play();
+    audio.muted = false;
+    audio.volume = 0.8;
 
-    if (playPromise !== undefined) {
-      playPromise
+    const promise = audio.play();
+    if (promise !== undefined) {
+      promise
         .then(() => {
           setIsPlaying(true);
+          setNeedsGesture(false);
         })
         .catch(() => {
-          // Autoplay blocked by browser policy; will unlock on first user click/touch
+          // If unmuted playback is blocked without user gesture
+          // Start playing muted so it streams, and prompt user
+          audio.muted = true;
+          audio.play().catch(() => {});
           setIsPlaying(false);
+          setNeedsGesture(true);
         });
     }
   }, []);
 
-  // Pause playback
+  // Explicit user pause
   const pauseAudio = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -42,67 +48,117 @@ export function BackgroundMusic() {
     setIsPlaying(false);
   }, []);
 
-  // Toggle Play / Pause
+  // Toggle button clicked
   const togglePlay = () => {
-    setHasInteracted(true);
     if (isPlaying) {
+      userPausedRef.current = true;
       pauseAudio();
     } else {
-      startAudio();
+      userPausedRef.current = false;
+      playWithSound();
     }
   };
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (audio) {
-      audio.volume = 0.75;
-    }
+    if (!audio) return;
 
-    // Attempt immediate autoplay on mount
-    startAudio();
+    // 1. Attempt to play with sound immediately when website opens
+    playWithSound();
 
-    // Browser Autoplay Policy: unlock audio on the very first user interaction
-    const handleFirstGesture = () => {
-      setHasInteracted(true);
-      startAudio();
-      window.removeEventListener("click", handleFirstGesture);
-      window.removeEventListener("touchstart", handleFirstGesture);
-      window.removeEventListener("scroll", handleFirstGesture);
-      window.removeEventListener("keydown", handleFirstGesture);
+    // 2. Global gesture unlock: ANY first click, tap, pointerdown, or touch on the website
+    // immediately unmutes and starts audio automatically!
+    const handleUserGesture = () => {
+      if (!userPausedRef.current) {
+        const el = audioRef.current;
+        if (el) {
+          el.muted = false;
+          el.volume = 0.8;
+          el.play()
+            .then(() => {
+              setIsPlaying(true);
+              setNeedsGesture(false);
+            })
+            .catch(() => {});
+        }
+      }
     };
 
-    window.addEventListener("click", handleFirstGesture, { once: true });
-    window.addEventListener("touchstart", handleFirstGesture, { once: true });
-    window.addEventListener("scroll", handleFirstGesture, { once: true });
-    window.addEventListener("keydown", handleFirstGesture, { once: true });
+    const gestureEvents = [
+      "click",
+      "touchstart",
+      "touchend",
+      "pointerdown",
+      "mousedown",
+      "keydown",
+    ];
+
+    gestureEvents.forEach((evt) => {
+      window.addEventListener(evt, handleUserGesture, { capture: true, passive: true });
+      document.addEventListener(evt, handleUserGesture, { capture: true, passive: true });
+    });
+
+    // 3. Resume when user returns to tab
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible" && !userPausedRef.current) {
+        audioRef.current?.play().catch(() => {});
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
-      window.removeEventListener("click", handleFirstGesture);
-      window.removeEventListener("touchstart", handleFirstGesture);
-      window.removeEventListener("scroll", handleFirstGesture);
-      window.removeEventListener("keydown", handleFirstGesture);
+      gestureEvents.forEach((evt) => {
+        window.removeEventListener(evt, handleUserGesture, true);
+        document.removeEventListener(evt, handleUserGesture, true);
+      });
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
-  }, [startAudio]);
+  }, [playWithSound]);
 
   return (
     <>
-      {/* Hidden HTML5 Audio Element streaming music.mp3 */}
+      {/* HTML5 Audio Element */}
       <audio
         ref={audioRef}
         src={musicSrc}
+        autoPlay
         loop
         preload="auto"
         playsInline
-        onCanPlay={() => setIsLoaded(true)}
         onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
+        onPause={() => {
+          if (userPausedRef.current) {
+            setIsPlaying(false);
+          }
+        }}
       />
+
+      {/* TOP INVITATION SOUND PROMPT (Displays only if browser strictly blocks initial silent sound) */}
+      <AnimatePresence>
+        {needsGesture && !isPlaying && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            onClick={togglePlay}
+            className="fixed top-3 left-1/2 -translate-x-1/2 z-[100] cursor-pointer"
+          >
+            <div className="flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-[#4A0E2E] via-[#5D123A] to-[#4A0E2E] text-[#FDE68A] border-2 border-[#D4AF37] shadow-[0_8px_25px_rgba(0,0,0,0.5)] animate-bounce">
+              <Music className="w-4 h-4 animate-spin" />
+              <span className="font-serif text-xs font-bold uppercase tracking-wider">
+                Tap anywhere to play wedding music 🎶
+              </span>
+              <Sparkles className="w-3.5 h-3.5 text-[#FDE68A]" />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* FLOATING 3D LUXURY MUSIC CONTROLLER */}
       <motion.div
         initial={{ opacity: 0, y: 20, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ delay: 1, duration: 0.6 }}
+        transition={{ delay: 0.5, duration: 0.6 }}
         className="fixed bottom-5 right-5 z-50 select-none"
       >
         <button
@@ -112,7 +168,7 @@ export function BackgroundMusic() {
               ? "bg-gradient-to-r from-[#3B0A24]/95 via-[#4A0E2E]/95 to-[#2B0B1D]/95 border-[#FDE68A] text-[#FDE68A]"
               : "bg-white/90 hover:bg-white border-[#D4AF37]/50 text-[#4A0E2E]"
           }`}
-          aria-label={isPlaying ? "Pause Wedding Music" : "Play Wedding Music"}
+          aria-label={isPlaying ? "Mute Background Music" : "Play Wedding Music"}
           title={isPlaying ? "Mute Background Music" : "Play Background Music"}
         >
           {/* Rotating Vinyl Record with Monogram */}
