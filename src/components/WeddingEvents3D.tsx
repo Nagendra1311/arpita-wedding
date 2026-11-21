@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Heart, Music, Sun, Utensils, Calendar, Clock, Sparkles } from "lucide-react";
 import { weddingConfig } from "@/config/weddingConfig";
 import { Card3DTilt } from "./Card3DTilt";
+import { DiwaliCrackers } from "./DiwaliCrackers";
 
 export function WeddingEvents3D() {
   const eventsList = [
@@ -69,7 +70,10 @@ export function WeddingEvents3D() {
   };
 
   return (
-    <section className="relative w-full max-w-4xl mx-auto py-14 px-4">
+    <section className="relative w-full max-w-4xl mx-auto py-14 px-4 overflow-hidden">
+      {/* DIWALI CRACKERS & SPARKLERS FESTIVE BACKGROUND */}
+      <DiwaliCrackers />
+
       <Card3DTilt intensity={5} glare={false}>
         <div className="relative rounded-3xl p-1 bg-gradient-to-b from-[#FDE68A]/80 via-white to-[#FBCFE8]/60 shadow-[0_25px_60px_rgba(212,175,55,0.2)]">
           <div className="rounded-[22px] bg-gradient-to-b from-[#FFFDF9] via-[#FFF6FA] to-[#FCEDF2] p-6 sm:p-10 border border-[#FDE68A]/50 text-center">

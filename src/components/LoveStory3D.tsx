@@ -62,17 +62,17 @@ export function LoveStory3D() {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
               
               {/* LEFT: 3D OVERLAPPING TILTED POLAROID PHOTOS */}
-              <div className="md:col-span-6 flex justify-center py-4" style={{ perspective: "1000px" }}>
-                <div className="relative w-72 sm:w-80 h-76">
+              <div className="md:col-span-6 flex justify-center py-2" style={{ perspective: "1000px" }}>
+                <div className="relative w-72 sm:w-80 h-[290px] sm:h-[320px] mx-auto">
                   
                   {/* Polaroid 1 (Left, Tilted -7deg) */}
                   <motion.div
                     initial={{ rotate: -8, scale: 0.9, opacity: 0 }}
                     whileInView={{ rotate: -6, scale: 1, opacity: 1 }}
-                    viewport={{ once: false, amount: 0.3 }}
+                    viewport={{ once: true }}
                     transition={{ duration: 0.7, delay: 0.15 }}
                     whileHover={{ rotate: -1, scale: 1.06, zIndex: 30 }}
-                    className="absolute top-2 left-0 w-48 sm:w-52 p-3 pb-8 bg-white rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.22)] border border-[#FDE68A]/60 cursor-pointer transform transition-all duration-300"
+                    className="absolute top-2 left-2 sm:left-0 w-44 sm:w-52 p-3 pb-8 bg-white rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.22)] border border-[#FDE68A]/60 cursor-pointer transform transition-all duration-300"
                   >
                     {/* Golden washi tape top clip */}
                     <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-14 h-4 bg-gradient-to-r from-[#D4AF37]/50 via-[#FDE68A]/80 to-[#D4AF37]/50 rounded-sm shadow-sm rotate-2" />
@@ -96,10 +96,10 @@ export function LoveStory3D() {
                   <motion.div
                     initial={{ rotate: 8, scale: 0.9, opacity: 0 }}
                     whileInView={{ rotate: 5, scale: 1, opacity: 1 }}
-                    viewport={{ once: false, amount: 0.3 }}
+                    viewport={{ once: true }}
                     transition={{ duration: 0.7, delay: 0.3 }}
                     whileHover={{ rotate: 0, scale: 1.06, zIndex: 30 }}
-                    className="absolute top-10 right-0 w-48 sm:w-52 p-3 pb-8 bg-white rounded-2xl shadow-[0_25px_45px_rgba(0,0,0,0.26)] border border-[#FDE68A]/60 cursor-pointer z-10 transform transition-all duration-300"
+                    className="absolute top-10 right-2 sm:right-0 w-44 sm:w-52 p-3 pb-8 bg-white rounded-2xl shadow-[0_25px_45px_rgba(0,0,0,0.26)] border border-[#FDE68A]/60 cursor-pointer z-10 transform transition-all duration-300"
                   >
                     {/* Decorative 3D gold wax seal stamp */}
                     <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 w-7 h-7 rounded-full bg-gradient-to-tr from-[#B45309] via-[#D4AF37] to-[#FEF08A] border-2 border-white shadow-md flex items-center justify-center">
@@ -123,15 +123,15 @@ export function LoveStory3D() {
                 </div>
               </div>
 
-              {/* RIGHT: STORY TEXT & READ STORY BUTTON */}
-              <div className="md:col-span-6 flex flex-col justify-center text-center md:text-left">
+              {/* RIGHT: STORY TEXT & READ STORY BUTTON (Always clearly visible on mobile) */}
+              <div className="md:col-span-6 flex flex-col justify-center text-center md:text-left mt-4 md:mt-0 relative z-20">
                 <motion.div
-                  initial={{ opacity: 0, x: 25 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: false, amount: 0.3 }}
-                  transition={{ duration: 0.7, delay: 0.2 }}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.05 }}
+                  transition={{ duration: 0.6 }}
                 >
-                  <p className="text-sm sm:text-base text-stone-700 leading-relaxed font-sans font-medium mb-3">
+                  <p className="text-sm sm:text-base text-stone-800 leading-relaxed font-sans font-medium mb-3">
                     It all started with a simple conversation, turned into endless chats, and grew into a beautiful bond. Today, we are not just partners, but best friends for life.
                   </p>
 
@@ -143,7 +143,7 @@ export function LoveStory3D() {
                   <div>
                     <button
                       onClick={() => setIsModalOpen(true)}
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#B45309] via-[#D97706] to-[#B45309] text-white font-serif text-xs uppercase tracking-widest font-bold shadow-[0_6px_22px_rgba(180,83,9,0.35)] hover:brightness-110 active:scale-95 transition-all transform hover:-translate-y-0.5"
+                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#B45309] via-[#D97706] to-[#B45309] text-white font-serif text-xs uppercase tracking-widest font-bold shadow-[0_6px_22px_rgba(180,83,9,0.35)] hover:brightness-110 active:scale-95 transition-all transform hover:-translate-y-0.5 cursor-pointer"
                     >
                       <BookOpen className="w-3.5 h-3.5" />
                       <span>Read Our Story</span>

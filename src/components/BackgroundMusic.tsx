@@ -7,8 +7,8 @@ import { weddingConfig } from "@/config/weddingConfig";
 
 export function BackgroundMusic() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [hasInteracted, setHasInteracted] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const musicSrc = weddingConfig.media?.musicSrc || "/music/music.mp3";

@@ -299,6 +299,18 @@ export function ScratchCardDate() {
     checkScratchProgress();
   };
 
+  // Reset and scratch again
+  const handleScratchAgain = () => {
+    setIsScratched(false);
+    setScratchPercent(0);
+    setHasInteracted(false);
+    lastPointRef.current = null;
+    isScratchingRef.current = false;
+    setTimeout(() => {
+      initCanvas();
+    }, 50);
+  };
+
   // Google Calendar Link generator
   const getGoogleCalendarUrl = () => {
     const title = encodeURIComponent(`Wedding: ${couple.fullName} (#ManniKiMini)`);
@@ -399,31 +411,31 @@ export function ScratchCardDate() {
 
               {isScratched && (
                 <button
-                  onClick={initCanvas}
-                  className="flex items-center justify-center gap-1 py-2 px-3 rounded-full bg-white text-[#4A0E2E] border border-[#4A0E2E]/30 font-serif text-[11px] uppercase tracking-wider hover:bg-[#FDF0F5] transition-all"
+                  onClick={handleScratchAgain}
+                  className="flex items-center justify-center gap-1.5 py-2 px-4 rounded-full bg-white text-[#4A0E2E] border border-[#D4AF37] font-serif text-xs uppercase tracking-wider font-bold hover:bg-[#FDF0F5] transition-all shadow-md active:scale-95 cursor-pointer"
                 >
-                  <RotateCcw className="w-3 h-3" />
+                  <RotateCcw className="w-3.5 h-3.5 text-[#B45309]" />
                   <span>Scratch Again</span>
                 </button>
               )}
             </div>
           </div>
 
-          {/* TOP SCRATCHABLE GOLD FOIL CANVAS */}
-          {!isScratched && (
-            <canvas
-              ref={canvasRef}
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseUp}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-              style={{ touchAction: "none" }}
-              className="absolute inset-0 w-full h-full cursor-crosshair z-20 rounded-[20px]"
-            />
-          )}
+          {/* TOP SCRATCHABLE GOLD FOIL CANVAS (Permanently mounted to avoid null ref) */}
+          <canvas
+            ref={canvasRef}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            style={{ touchAction: "none" }}
+            className={`absolute inset-0 w-full h-full cursor-crosshair z-20 rounded-[20px] transition-opacity duration-300 ${
+              isScratched ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"
+            }`}
+          />
 
           {/* HINT OVERLAY: Animated floating finger guide before first interaction */}
           {!hasInteracted && !isScratched && (

@@ -75,38 +75,35 @@ export function HeroLuxury3D() {
           </span>
         </motion.div>
 
-        {/* Right Brand Bar: Monogram & Video Teaser Button */}
-        <div className="flex items-center gap-2.5">
-          {/* Couple Monogram Badge */}
-          <motion.div
-            initial={{ opacity: 0, x: 15 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/35 backdrop-blur-md border border-white/30 text-white shadow-sm"
-          >
-            <span className="font-serif text-sm sm:text-base font-bold tracking-widest text-[#FDE68A]">
-              {couple.bride[0]}
-            </span>
-            <Heart className="w-3 h-3 fill-[#F43F5E] text-[#F43F5E]" />
-            <span className="font-serif text-sm sm:text-base font-bold tracking-widest text-[#FDE68A]">
-              {couple.groom[0]}
-            </span>
-          </motion.div>
-
-          {/* Video Teaser Button */}
-          <Link
-            href="/video"
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/40 text-white font-serif text-[11px] sm:text-xs uppercase tracking-wider font-semibold shadow-md transition-all active:scale-95"
-          >
-            <Film className="w-3.5 h-3.5 text-[#FDE68A]" />
-            <span>Teaser</span>
-          </Link>
-        </div>
+        {/* Video Teaser Button */}
+        <Link
+          href="/video"
+          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/40 text-white font-serif text-[11px] sm:text-xs uppercase tracking-wider font-semibold shadow-md transition-all active:scale-95"
+        >
+          <Film className="w-3.5 h-3.5 text-[#FDE68A]" />
+          <span>Teaser</span>
+        </Link>
       </div>
 
       {/* CENTER HERO CONTENT: COUPLE NAME & ROMANTIC 3D HEADINGS */}
       <div className="relative z-20 w-full max-w-lg mx-auto px-6 py-4 flex flex-col items-center text-center">
         
+        {/* Couple Monogram Badge A ♡ M directly above Together Forever */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/45 backdrop-blur-md border border-[#FDE68A]/60 shadow-[0_4px_18px_rgba(0,0,0,0.5)] mb-3"
+        >
+          <span className="font-serif text-base sm:text-lg font-bold tracking-widest text-[#FDE68A] drop-shadow">
+            {couple.bride[0]}
+          </span>
+          <Heart className="w-3.5 h-3.5 fill-[#F43F5E] text-[#F43F5E] drop-shadow-[0_0_8px_rgba(244,63,94,0.8)]" />
+          <span className="font-serif text-base sm:text-lg font-bold tracking-widest text-[#FDE68A] drop-shadow">
+            {couple.groom[0]}
+          </span>
+        </motion.div>
+
         {/* "Together Forever" Banner */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
