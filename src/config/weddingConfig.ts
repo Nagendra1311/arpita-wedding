@@ -59,6 +59,7 @@ export interface WeddingConfig {
     enableRsvpButton: boolean;
     rsvpLink: string;
     whatsappNumber: string;
+    phoneFormatted?: string;
     defaultMessage: string;
   };
 }
@@ -87,17 +88,17 @@ export const weddingConfig: WeddingConfig = {
     weddingDate: "18th January 2027",
     weddingDateFormatted: "Monday, January 18, 2027",
     weddingDateIso: "2027-01-18T18:00:00",
-    venue: "The Grand Celebration Palace",
-    venueName: "The Grand Celebration Palace",
-    venueAddress: "123, Harmony Avenue, Blissful City, Dreamland - 123456",
-    city: "Dreamland",
-    googleMapsUrl: "https://maps.google.com/?q=The+Grand+Celebration+Palace",
+    venue: "Tridhara Community Hall",
+    venueName: "Tridhara Community Hall",
+    venueAddress: "3a, Dover Terrace, Ballygunge, Kolkata, West Bengal 700019",
+    city: "Kolkata",
+    googleMapsUrl: "https://maps.app.goo.gl/S56zyTP6njB4PuD97",
   },
   events: [
     {
       title: "Sangeet",
       subTitle: "Musical Night of Celebration",
-      date: "17th January 2027",
+      date: "17ᵗʰ January 2027",
       time: "Evening",
       theme: "Glam Night",
       dressCode: "Indo-Western / Contemporary",
@@ -105,25 +106,25 @@ export const weddingConfig: WeddingConfig = {
       accentColor: "#6B1D45",
       badgeColor: "#0D9488",
       icon: "Music",
-      description: "An evening filled with music, rhythm, dance performances, and celebration.",
+      description: "An evening filled with music, rhythm, dance performances, and glamour.",
     },
     {
       title: "Haldi",
       subTitle: "Auspicious Turmeric Blessing",
-      date: "18th January 2027",
+      date: "18ᵗʰ January 2027",
       time: "Morning",
       theme: "Bright & Cheerful",
-      dressCode: "Yellow / Pastel / Floral Attire",
+      dressCode: "Yellow / Pastel / Floral",
       colorScheme: "Marigold Yellow, Mustard & Floral",
       accentColor: "#D97706",
       badgeColor: "#EAB308",
       icon: "Sun",
-      description: "A joyful morning bathed in yellow tones and love as turmeric is lovingly applied.",
+      description: "A joyful morning bathed in bright, cheerful yellow tones as auspicious turmeric is lovingly applied.",
     },
     {
       title: "Wedding",
       subTitle: "The Sacred Vows & Phere",
-      date: "18th January 2027",
+      date: "18ᵗʰ January 2027",
       time: "Evening",
       theme: "Traditional",
       dressCode: "Traditional (Saree / Kurta / Sherwani)",
@@ -131,7 +132,7 @@ export const weddingConfig: WeddingConfig = {
       accentColor: "#881337",
       badgeColor: "#881337",
       icon: "Heart",
-      description: "The sacred saat phere and wedding ceremony solemnizing the union of two souls.",
+      description: "The sacred saat phere and traditional wedding ceremony solemnizing the union of two souls.",
     },
   ],
   cardImages: {
@@ -148,8 +149,9 @@ export const weddingConfig: WeddingConfig = {
   },
   rsvp: {
     enableRsvpButton: true,
-    rsvpLink: "https://wa.me/919876543210?text=Dear%20Arpita%20and%20Manish,%20heartiest%20congratulations%20on%20your%20wedding!%20%23ManniKiMini",
-    whatsappNumber: "919876543210",
+    rsvpLink: "https://wa.me/917065891834?text=Dear%20Arpita%20and%20Manish,%20heartiest%20congratulations%20on%20your%20wedding!%20%23ManniKiMini",
+    whatsappNumber: "917065891834",
+    phoneFormatted: "+91 70658 91834",
     defaultMessage: "Dear Arpita and Manish, we are so delighted to receive your wedding invitation! Heartiest congratulations and best wishes for #ManniKiMini!",
   },
 };

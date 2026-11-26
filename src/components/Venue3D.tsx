@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { MapPin, Navigation, Copy, Check } from "lucide-react";
+import { MapPin, Navigation, Copy, Check, MessageCircle } from "lucide-react";
 import { weddingConfig } from "@/config/weddingConfig";
 import { Card3DTilt } from "./Card3DTilt";
 
@@ -41,7 +41,7 @@ export function Venue3D() {
                 
                 <div className="absolute bottom-3 left-3 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md text-white text-xs font-serif tracking-wider border border-white/30 shadow-md">
                   <MapPin className="w-3.5 h-3.5 text-[#FDE68A]" />
-                  <span>The Grand Celebration Palace</span>
+                  <span>{event.venueName}</span>
                 </div>
               </div>
 
@@ -98,6 +98,20 @@ export function Venue3D() {
                       </>
                     )}
                   </button>
+                </div>
+
+                {/* Direct Contact & Assistance */}
+                <div className="mt-4 pt-3 border-t border-[#4A0E2E]/10 flex flex-wrap items-center justify-center md:justify-start gap-2 text-xs font-serif text-[#7A1D49]">
+                  <span className="text-stone-500">Need directions?</span>
+                  <a
+                    href={`https://wa.me/${weddingConfig.rsvp.whatsappNumber}?text=${encodeURIComponent("Hello! Could you please guide me with the directions to " + event.venueName + "?")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-[#25D366] hover:underline font-bold"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5 fill-[#25D366]" />
+                    <span>WhatsApp / Call: {weddingConfig.rsvp.phoneFormatted}</span>
+                  </a>
                 </div>
               </div>
             </div>

@@ -89,7 +89,7 @@ export function RsvpBlessings() {
           </button>
 
           <p className="font-cormorant italic text-xs text-[#7A1D49] mt-2">
-            Opens WhatsApp with your prefilled heartfelt wishes directly to the couple!
+            Opens WhatsApp ({rsvp.phoneFormatted || "+91 70658 91834"}) with your prefilled heartfelt wishes directly to the couple!
           </p>
         </form>
       </div>

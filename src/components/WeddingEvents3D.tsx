@@ -10,9 +10,11 @@ import { DiwaliCrackers } from "./DiwaliCrackers";
 export function WeddingEvents3D() {
   const eventsList = [
     {
-      title: "Sangeet Night",
-      date: "17 Jan 2027",
-      time: "7:00 PM Onwards",
+      title: "Sangeet",
+      subTitle: "Musical Night of Celebration",
+      date: "17ᵗʰ January 2027",
+      time: "Evening",
+      timingDetail: "7:00 PM Onwards",
       theme: "Glam Night",
       dress: "Indo-Western / Contemporary",
       icon: Music,
@@ -22,9 +24,11 @@ export function WeddingEvents3D() {
       calDate: "20270117T133000Z/20270117T183000Z",
     },
     {
-      title: "Haldi Ceremony",
-      date: "18 Jan 2027",
-      time: "10:00 AM Onwards",
+      title: "Haldi",
+      subTitle: "Auspicious Turmeric Blessing",
+      date: "18ᵗʰ January 2027",
+      time: "Morning",
+      timingDetail: "10:00 AM Onwards",
       theme: "Bright & Cheerful",
       dress: "Yellow / Pastel / Floral",
       icon: Sun,
@@ -34,29 +38,19 @@ export function WeddingEvents3D() {
       calDate: "20270118T043000Z/20270118T083000Z",
     },
     {
-      title: "Wedding Ceremony",
-      date: "18 Jan 2027",
-      time: "7:00 PM Onwards",
+      title: "Wedding",
+      subTitle: "The Sacred Vows & Phere",
+      date: "18ᵗʰ January 2027",
+      time: "Evening",
+      timingDetail: "7:00 PM Onwards",
       theme: "Traditional",
-      dress: "Traditional (Saree / Kurta)",
+      dress: "Traditional (Saree / Kurta / Sherwani)",
       icon: Heart,
       color: "#881337",
       glowColor: "rgba(136, 19, 55, 0.45)",
       isMain: true,
       bgGradient: "from-[#881337]/15 via-[#FFF1F2] to-[#FFE4E6]",
       calDate: "20270118T133000Z/20270118T183000Z",
-    },
-    {
-      title: "Reception Feast",
-      date: "18 Jan 2027",
-      time: "8:30 PM Onwards",
-      theme: "Grand Dinner",
-      dress: "Celebratory Attire",
-      icon: Utensils,
-      color: "#B45309",
-      glowColor: "rgba(180, 83, 9, 0.35)",
-      bgGradient: "from-[#B45309]/10 via-[#FFFDF9] to-[#FEF3C7]",
-      calDate: "20270118T150000Z/20270118T190000Z",
     },
   ];
 
@@ -99,17 +93,17 @@ export function WeddingEvents3D() {
             <div className="relative">
               <div className="hidden md:block absolute top-10 left-12 right-12 h-0.5 bg-gradient-to-r from-[#D97706]/30 via-[#D4AF37] to-[#881337]/30 z-0" />
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 relative z-10">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
                 {eventsList.map((item, idx) => {
                   const IconComponent = item.icon;
                   return (
-                    <Card3DTilt key={item.title} intensity={12} glare={true} className="h-full">
+                    <Card3DTilt key={item.title} intensity={10} glare={true} className="h-full">
                       <motion.div
                         initial={{ opacity: 0, y: 30, scale: 0.9 }}
                         whileInView={{ opacity: 1, y: 0, scale: 1 }}
                         viewport={{ once: false, amount: 0.2 }}
-                        transition={{ delay: idx * 0.12, duration: 0.6 }}
-                        className={`h-full flex flex-col justify-between p-4 rounded-2xl bg-gradient-to-b ${item.bgGradient} backdrop-blur-md border border-[#FDE68A]/60 shadow-[0_10px_30px_rgba(0,0,0,0.1)] transition-all duration-300 relative group overflow-hidden`}
+                        transition={{ delay: idx * 0.15, duration: 0.6 }}
+                        className={`h-full flex flex-col justify-between p-5 rounded-2xl bg-gradient-to-b ${item.bgGradient} backdrop-blur-md border border-[#FDE68A]/60 shadow-[0_12px_32px_rgba(0,0,0,0.1)] transition-all duration-300 relative group overflow-hidden`}
                       >
                         {/* Gold bevel line on top */}
                         <div className="absolute inset-x-2 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
@@ -136,27 +130,39 @@ export function WeddingEvents3D() {
                           </div>
 
                           {/* Event Title */}
-                          <h3 className="font-serif text-lg font-bold text-[#4A0E2E]">
+                          <h3 className="font-serif text-xl font-extrabold text-[#4A0E2E] tracking-wider uppercase">
                             {item.title}
                           </h3>
 
-                          {/* Date and Time */}
-                          <div className="my-2 py-1 px-3 rounded-full bg-white/70 border border-[#D4AF37]/40 text-xs font-serif text-[#7A1D49] font-semibold flex items-center gap-1 shadow-sm">
-                            <Clock className="w-3 h-3 text-[#D4AF37]" />
-                            <span>{item.time}</span>
-                          </div>
-                          <span className="text-xs text-stone-600 font-serif font-medium">
+                          {/* Date */}
+                          <div className="mt-1 font-serif text-xs font-bold text-[#881337] tracking-wider">
                             {item.date}
-                          </span>
+                          </div>
 
-                          {/* Theme Badge */}
-                          <div className="mt-3 pt-2 border-t border-[#D4AF37]/20 w-full">
-                            <span className="text-[10px] uppercase font-serif tracking-wider text-stone-500 block font-semibold">
-                              Dress Code
-                            </span>
-                            <span className="font-cormorant italic text-xs font-bold text-[#4A0E2E] block mt-0.5">
-                              {item.dress}
-                            </span>
+                          {/* Time & Timing Detail */}
+                          <div className="my-2 py-1 px-3.5 rounded-full bg-white/80 border border-[#D4AF37]/50 text-xs font-serif text-[#7A1D49] font-bold flex items-center gap-1.5 shadow-sm">
+                            <Clock className="w-3.5 h-3.5 text-[#D4AF37]" />
+                            <span>{item.time} ({item.timingDetail})</span>
+                          </div>
+
+                          {/* Theme Box */}
+                          <div className="mt-3 p-3 rounded-xl bg-white/70 border border-[#D4AF37]/30 w-full text-center shadow-inner">
+                            <div className="mb-1.5">
+                              <span className="text-[10px] uppercase font-serif tracking-widest text-[#B45309] block font-bold">
+                                Theme
+                              </span>
+                              <span className="font-serif text-sm font-bold text-[#4A0E2E] block">
+                                {item.theme}
+                              </span>
+                            </div>
+                            <div className="pt-1.5 border-t border-[#D4AF37]/20">
+                              <span className="text-[10px] uppercase font-serif tracking-wider text-stone-500 block font-semibold">
+                                Dress Code
+                              </span>
+                              <span className="font-cormorant italic text-xs font-bold text-[#7A1D49] block mt-0.5">
+                                {item.dress}
+                              </span>
+                            </div>
                           </div>
                         </div>
 
@@ -166,10 +172,10 @@ export function WeddingEvents3D() {
                             href={getCalendarLink(item.title, item.calDate)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-full bg-white/90 hover:bg-[#D4AF37] hover:text-[#2C061A] text-[#7A1D49] text-[11px] font-serif uppercase tracking-wider font-bold border border-[#D4AF37]/50 shadow-sm transition-all duration-300"
+                            className="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-full bg-white/95 hover:bg-[#D4AF37] hover:text-[#2C061A] text-[#7A1D49] text-xs font-serif uppercase tracking-wider font-bold border border-[#D4AF37]/60 shadow-sm transition-all duration-300"
                           >
-                            <Calendar className="w-3 h-3" />
-                            <span>Add to Cal</span>
+                            <Calendar className="w-3.5 h-3.5" />
+                            <span>Add to Calendar</span>
                           </a>
                         </div>
                       </motion.div>

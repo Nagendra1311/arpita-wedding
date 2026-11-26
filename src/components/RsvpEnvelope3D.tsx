@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Send, Check, X, Sparkles } from "lucide-react";
+import { Heart, Send, Check, X, Sparkles, MessageCircle, Phone } from "lucide-react";
 import { weddingConfig } from "@/config/weddingConfig";
 import { triggerCelebration } from "./CelebrationEffects";
 import { Card3DTilt } from "./Card3DTilt";
@@ -147,6 +147,22 @@ export function RsvpEnvelope3D() {
                     <Send className="w-3.5 h-3.5 text-[#B45309]" />
                     <span>Send Wishes</span>
                   </button>
+                </div>
+
+                {/* RSVP Contact info */}
+                <div className="mt-5 pt-3 border-t border-[#4A0E2E]/10 flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs font-serif text-[#7A1D49]">
+                  <div className="flex items-center gap-1.5 font-semibold">
+                    <MessageCircle className="w-4 h-4 text-[#25D366] fill-[#25D366]" />
+                    <span>WhatsApp / Call:</span>
+                    <a
+                      href={`https://wa.me/${rsvp.whatsappNumber}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#4A0E2E] hover:text-[#B45309] font-bold underline"
+                    >
+                      {rsvp.phoneFormatted || "+91 70658 91834"}
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
