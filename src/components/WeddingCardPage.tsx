@@ -16,6 +16,8 @@ import { RsvpEnvelope3D } from "./RsvpEnvelope3D";
 import { Gallery3D } from "./Gallery3D";
 import { WardrobePlanner3D } from "./WardrobePlanner3D";
 import { CardImageGallery } from "./CardImageGallery";
+import { Card3DTilt } from "./Card3DTilt";
+import { RoyalCornerFlourish, ShimmerDivider, MandalaBackground } from "./RoyalOrnaments";
 
 export function WeddingCardPage() {
   const { couple, event, shloka, family } = weddingConfig;
@@ -37,30 +39,46 @@ export function WeddingCardPage() {
       <HeroLuxury3D />
 
       {/* AUSPICIOUS GANESH INVOCATION & BLESSINGS BANNER */}
-      <section className="relative py-8 px-4 text-center max-w-2xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.3 }}
-          transition={{ duration: 0.7 }}
-          className="p-5 rounded-3xl bg-white/80 backdrop-blur-md border border-[#FDE68A]/70 shadow-[0_12px_35px_rgba(212,175,55,0.16)] relative overflow-hidden group hover:shadow-[0_16px_45px_rgba(212,175,55,0.22)] transition-all"
-        >
-          {/* Subtle top gold reflection */}
-          <div className="absolute inset-x-4 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
+      <section className="relative py-10 px-4 text-center max-w-2xl mx-auto">
+        <Card3DTilt intensity={4} glare={true}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 0.7 }}
+            className="relative p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-white/95 via-[#FFFDF9]/90 to-[#FFF3F7]/95 backdrop-blur-md border border-[#FDE68A]/80 shadow-[0_16px_45px_rgba(212,175,55,0.22)] overflow-hidden group hover:shadow-[0_22px_60px_rgba(212,175,55,0.3)] transition-all"
+          >
+            {/* Corner Gold Flourishes */}
+            <RoyalCornerFlourish position="top-left" />
+            <RoyalCornerFlourish position="top-right" />
+            <RoyalCornerFlourish position="bottom-left" />
+            <RoyalCornerFlourish position="bottom-right" />
 
-          <div className="inline-flex items-center gap-1.5 p-1.5 px-4 rounded-full bg-[#4A0E2E]/10 text-[#4A0E2E] text-xs font-serif uppercase tracking-widest font-bold mb-2 border border-[#D4AF37]/30">
-            <span>🕉️</span>
-            <span>{shloka.sanskritTop}</span>
-          </div>
-          <p className="font-serif text-xs sm:text-sm text-[#7A1D49] leading-relaxed whitespace-pre-line font-medium max-w-md mx-auto">
-            {shloka.sanskritMain}
-          </p>
-          <div className="mt-3.5 pt-3 border-t border-[#D4AF37]/20 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-stone-600 font-serif">
-            <span>D/o {family.brideParents}</span>
-            <span className="text-[#D4AF37] font-bold">&bull;</span>
-            <span>S/o {family.groomParents}</span>
-          </div>
-        </motion.div>
+            {/* Subtle rotating mandala watermark */}
+            <MandalaBackground size={320} opacity={0.06} className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+
+            {/* Top gold reflection line */}
+            <div className="absolute inset-x-8 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
+
+            <div className="inline-flex items-center gap-2 py-1.5 px-5 rounded-full bg-gradient-to-r from-[#4A0E2E]/10 via-[#4A0E2E]/5 to-[#4A0E2E]/10 text-[#4A0E2E] text-xs font-serif uppercase tracking-widest font-bold mb-3 border border-[#D4AF37]/50 shadow-sm animate-pulse-glow-gold">
+              <span className="text-sm">🕉️</span>
+              <span className="tracking-[0.25em]">{shloka.sanskritTop}</span>
+              <span className="text-sm">🕉️</span>
+            </div>
+
+            <p className="font-serif text-sm sm:text-base text-[#7A1D49] leading-relaxed whitespace-pre-line font-semibold max-w-lg mx-auto drop-shadow-sm">
+              {shloka.sanskritMain}
+            </p>
+
+            <ShimmerDivider className="my-3 opacity-70" />
+
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-stone-700 font-serif font-medium">
+              <span>D/o {family.brideParents}</span>
+              <span className="text-[#D4AF37] font-bold">&bull;</span>
+              <span>S/o {family.groomParents}</span>
+            </div>
+          </motion.div>
+        </Card3DTilt>
       </section>
 
       {/* 2. OUR LOVE STORY (3D POLAROIDS WITH INTERACTIVE DEPTH) */}

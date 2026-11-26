@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Heart, ArrowRight, X, Sparkles, BookOpen } from "lucide-react";
 import { weddingConfig } from "@/config/weddingConfig";
 import { Card3DTilt } from "./Card3DTilt";
+import { RoyalCornerFlourish, ShimmerDivider, MandalaBackground } from "./RoyalOrnaments";
 
 export function LoveStory3D() {
   const { couple } = weddingConfig;
@@ -41,6 +42,15 @@ export function LoveStory3D() {
         <div className="relative rounded-3xl p-1 bg-gradient-to-b from-[#FDE68A]/80 via-[#FFF9FB] to-[#FBCFE8]/60 shadow-[0_25px_60px_rgba(212,175,55,0.22)]">
           <div className="relative rounded-[22px] bg-gradient-to-b from-[#FFFDF9] via-[#FFF5F8] to-[#FCEDF2] p-6 sm:p-10 border border-[#FDE68A]/50 overflow-hidden">
             
+            {/* Corner Gold Flourishes */}
+            <RoyalCornerFlourish position="top-left" />
+            <RoyalCornerFlourish position="top-right" />
+            <RoyalCornerFlourish position="bottom-left" />
+            <RoyalCornerFlourish position="bottom-right" />
+
+            {/* Subtle rotating mandala watermark */}
+            <MandalaBackground size={420} opacity={0.06} className="-top-12 -right-12" />
+
             {/* Subtle floral watermark accents in corners */}
             <div className="pointer-events-none absolute -top-8 -right-8 w-44 h-44 rounded-full bg-[#FDA4AF]/25 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-8 -left-8 w-44 h-44 rounded-full bg-[#FDE68A]/30 blur-3xl" />

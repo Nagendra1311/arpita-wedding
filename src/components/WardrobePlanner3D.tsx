@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Shirt, Sparkles, Heart } from "lucide-react";
 import { weddingConfig } from "@/config/weddingConfig";
 import { Card3DTilt } from "./Card3DTilt";
+import { RoyalCornerFlourish, MandalaBackground } from "./RoyalOrnaments";
 
 export function WardrobePlanner3D() {
   const { events, couple } = weddingConfig;
@@ -13,7 +14,15 @@ export function WardrobePlanner3D() {
     <section className="relative w-full max-w-4xl mx-auto py-12 px-4">
       <Card3DTilt intensity={5} glare={false}>
         <div className="relative rounded-3xl p-1 bg-gradient-to-b from-[#FDE68A]/80 via-white to-[#FBCFE8]/60 shadow-[0_25px_60px_rgba(212,175,55,0.2)]">
-          <div className="rounded-[22px] bg-gradient-to-b from-[#FFFDF9] via-[#FFF6FA] to-[#FCEDF2] p-6 sm:p-10 border border-[#FDE68A]/50 text-center">
+          <div className="rounded-[22px] bg-gradient-to-b from-[#FFFDF9] via-[#FFF6FA] to-[#FCEDF2] p-6 sm:p-10 border border-[#FDE68A]/50 text-center relative overflow-hidden">
+            {/* Corner Ornaments */}
+            <RoyalCornerFlourish position="top-left" />
+            <RoyalCornerFlourish position="top-right" />
+            <RoyalCornerFlourish position="bottom-left" />
+            <RoyalCornerFlourish position="bottom-right" />
+
+            {/* Background Mandala */}
+            <MandalaBackground size={400} opacity={0.06} className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
             
             {/* Header */}
             <div className="mb-8">

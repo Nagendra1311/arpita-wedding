@@ -6,6 +6,7 @@ import { Heart, Send, Check, X, Sparkles, MessageCircle, Phone } from "lucide-re
 import { weddingConfig } from "@/config/weddingConfig";
 import { triggerCelebration } from "./CelebrationEffects";
 import { Card3DTilt } from "./Card3DTilt";
+import { RoyalCornerFlourish, MandalaBackground } from "./RoyalOrnaments";
 
 export function RsvpEnvelope3D() {
   const { couple, rsvp } = weddingConfig;
@@ -40,6 +41,14 @@ export function RsvpEnvelope3D() {
       <Card3DTilt intensity={6} glare={false}>
         <div className="relative rounded-3xl p-1 bg-gradient-to-b from-[#FDE68A]/80 via-white to-[#FBCFE8]/60 shadow-[0_25px_60px_rgba(212,175,55,0.2)]">
           <div className="rounded-[22px] bg-gradient-to-b from-[#FFFDF9] via-[#FFF2F6] to-[#FCEBF1] p-6 sm:p-10 border border-[#FDE68A]/50 text-center relative overflow-hidden">
+            {/* Corner Ornaments */}
+            <RoyalCornerFlourish position="top-left" />
+            <RoyalCornerFlourish position="top-right" />
+            <RoyalCornerFlourish position="bottom-left" />
+            <RoyalCornerFlourish position="bottom-right" />
+
+            {/* Subtle Mandala Background */}
+            <MandalaBackground size={420} opacity={0.06} className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
             
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
               

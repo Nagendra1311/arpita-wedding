@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Calendar, Clock, RotateCcw, Heart, Eye } from "lucide-react";
 import { triggerCelebration, playChimeSound } from "./CelebrationEffects";
 import { weddingConfig } from "@/config/weddingConfig";
+import { RoyalCornerFlourish } from "./RoyalOrnaments";
 
 export function ScratchCardDate() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -335,6 +336,11 @@ export function ScratchCardDate() {
         className="relative rounded-3xl p-1 bg-gradient-to-b from-[#FDE68A] via-[#D4AF37] to-[#4A0E2E] shadow-[0_25px_60px_rgba(212,175,55,0.28)] hover:shadow-[0_30px_70px_rgba(212,175,55,0.38)] transition-all duration-300"
       >
         <div className="relative rounded-[22px] overflow-hidden bg-gradient-to-b from-[#FFFDF9] via-[#FCF3F7] to-[#FDF0F5] border-2 border-[#D4AF37]/50 min-h-[390px] flex flex-col items-center justify-between p-6 text-center select-none shadow-inner">
+          {/* Corner Ornaments */}
+          <RoyalCornerFlourish position="top-left" />
+          <RoyalCornerFlourish position="top-right" />
+          <RoyalCornerFlourish position="bottom-left" />
+          <RoyalCornerFlourish position="bottom-right" />
           
           {/* UNDERNEATH: REVEALED WEDDING DATE CARD */}
           <div className="w-full flex flex-col items-center justify-center py-2">
@@ -436,6 +442,13 @@ export function ScratchCardDate() {
               isScratched ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"
             }`}
           />
+
+          {/* Sweeping Gold Foil Light Reflection */}
+          {!isScratched && (
+            <div className="pointer-events-none absolute inset-0 z-25 overflow-hidden rounded-[20px]">
+              <div className="w-1/2 h-full bg-gradient-to-r from-transparent via-white/25 to-transparent animate-foil-sweep" />
+            </div>
+          )}
 
           {/* HINT OVERLAY: Animated floating finger guide before first interaction */}
           {!hasInteracted && !isScratched && (

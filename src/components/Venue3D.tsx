@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { MapPin, Navigation, Copy, Check, MessageCircle } from "lucide-react";
 import { weddingConfig } from "@/config/weddingConfig";
 import { Card3DTilt } from "./Card3DTilt";
+import { RoyalCornerFlourish, MandalaBackground } from "./RoyalOrnaments";
 
 export function Venue3D() {
   const { event } = weddingConfig;
@@ -21,7 +22,15 @@ export function Venue3D() {
     <section className="relative w-full max-w-4xl mx-auto py-12 px-4">
       <Card3DTilt intensity={6} glare={false}>
         <div className="relative rounded-3xl p-1 bg-gradient-to-b from-[#FDE68A]/80 via-white to-[#FBCFE8]/60 shadow-[0_25px_60px_rgba(212,175,55,0.2)]">
-          <div className="rounded-[22px] bg-gradient-to-b from-[#FFFDF9] via-[#FFF6FA] to-[#FCEDF2] p-6 sm:p-8 border border-[#FDE68A]/50 overflow-hidden">
+          <div className="rounded-[22px] bg-gradient-to-b from-[#FFFDF9] via-[#FFF6FA] to-[#FCEDF2] p-6 sm:p-8 border border-[#FDE68A]/50 overflow-hidden relative">
+            {/* Corner Ornaments */}
+            <RoyalCornerFlourish position="top-left" />
+            <RoyalCornerFlourish position="top-right" />
+            <RoyalCornerFlourish position="bottom-left" />
+            <RoyalCornerFlourish position="bottom-right" />
+
+            {/* Subtle Mandala Background Watermark */}
+            <MandalaBackground size={400} opacity={0.06} className="-top-12 -right-12" />
             
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
               
@@ -39,7 +48,11 @@ export function Venue3D() {
                 <div className="absolute inset-0 border-[6px] border-[#D4AF37]/30 rounded-3xl pointer-events-none" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 
-                <div className="absolute bottom-3 left-3 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md text-white text-xs font-serif tracking-wider border border-white/30 shadow-md">
+                <div className="absolute bottom-3 left-3 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/50 backdrop-blur-md text-white text-xs font-serif tracking-wider border border-white/40 shadow-lg">
+                  <span className="relative flex h-2 w-2 mr-0.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
                   <MapPin className="w-3.5 h-3.5 text-[#FDE68A]" />
                   <span>{event.venueName}</span>
                 </div>

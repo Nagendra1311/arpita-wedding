@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Heart, Calendar, ChevronDown, Film, Sparkles } from "lucide-react";
 import { weddingConfig } from "@/config/weddingConfig";
+import { MandalaBackground } from "./RoyalOrnaments";
 
 export function HeroLuxury3D() {
   const { couple, event, shloka } = weddingConfig;
@@ -57,6 +58,10 @@ export function HeroLuxury3D() {
         {/* Soft Warm Rose Gold & Ambient Vignette Overlays that preserve photo clarity */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#FAF0F4] via-[#4A0E2E]/35 to-black/55" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,223,186,0.25)_0%,transparent_65%)]" />
+
+        {/* 3D Traditional Royal Indian Sacred Mandalas */}
+        <MandalaBackground size={650} opacity={0.14} className="-top-24 -right-24" />
+        <MandalaBackground size={550} opacity={0.1} className="top-1/3 -left-32" reverse={true} />
       </div>
 
       {/* TOP ROYAL NAVIGATION & BRAND BAR */}
@@ -93,13 +98,14 @@ export function HeroLuxury3D() {
           initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/45 backdrop-blur-md border border-[#FDE68A]/60 shadow-[0_4px_18px_rgba(0,0,0,0.5)] mb-3"
+          className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-black/50 backdrop-blur-md border border-[#FDE68A]/70 shadow-[0_4px_22px_rgba(212,175,55,0.4)] mb-3 animate-float-gentle relative group"
         >
-          <span className="font-serif text-base sm:text-lg font-bold tracking-widest text-[#FDE68A] drop-shadow">
+          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-[#FDE68A]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          <span className="font-serif text-base sm:text-lg font-bold tracking-widest text-[#FDE68A] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
             {couple.bride[0]}
           </span>
-          <Heart className="w-3.5 h-3.5 fill-[#F43F5E] text-[#F43F5E] drop-shadow-[0_0_8px_rgba(244,63,94,0.8)]" />
-          <span className="font-serif text-base sm:text-lg font-bold tracking-widest text-[#FDE68A] drop-shadow">
+          <Heart className="w-4 h-4 fill-[#F43F5E] text-[#F43F5E] drop-shadow-[0_0_10px_rgba(244,63,94,0.9)] animate-pulse" />
+          <span className="font-serif text-base sm:text-lg font-bold tracking-widest text-[#FDE68A] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
             {couple.groom[0]}
           </span>
         </motion.div>
@@ -156,7 +162,7 @@ export function HeroLuxury3D() {
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.55 }}
-          className="grid grid-cols-4 gap-2.5 sm:gap-3 w-full max-w-[350px] my-2"
+          className="grid grid-cols-4 gap-2.5 sm:gap-3.5 w-full max-w-[360px] my-3"
         >
           {[
             { label: "Days", val: timeLeft.days },
@@ -166,11 +172,20 @@ export function HeroLuxury3D() {
           ].map((item, idx) => (
             <div
               key={idx}
-              className="relative rounded-2xl p-2.5 sm:p-3 flex flex-col items-center justify-center bg-black/40 hover:bg-black/55 backdrop-blur-xl border border-white/50 shadow-[0_12px_30px_rgba(0,0,0,0.4)] transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-[0_18px_35px_rgba(212,175,55,0.35)]"
+              className="relative rounded-2xl p-2.5 sm:p-3 flex flex-col items-center justify-center bg-black/45 hover:bg-black/60 backdrop-blur-xl border border-white/50 shadow-[0_12px_30px_rgba(0,0,0,0.45)] transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(212,175,55,0.45)] hover:border-[#FDE68A] group"
             >
               {/* Glass Top Bevel Highlight */}
               <div className="absolute inset-x-2 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent" />
-              <span className="font-serif text-2xl sm:text-3xl font-extrabold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+              
+              {/* Subtle gold glow pulse on seconds card */}
+              {item.label === "Seconds" && (
+                <span className="absolute top-1.5 right-1.5 flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FDE68A] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FDE68A]"></span>
+                </span>
+              )}
+
+              <span className="font-serif text-2xl sm:text-3xl font-extrabold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)] group-hover:scale-105 transition-transform">
                 {item.val.toString().padStart(2, "0")}
               </span>
               <span className="text-[10px] tracking-wider text-[#FDE68A] font-serif uppercase mt-0.5 font-bold drop-shadow">

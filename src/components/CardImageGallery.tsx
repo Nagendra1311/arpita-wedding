@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Maximize2, X, Layers } from "lucide-react";
 import { weddingConfig } from "@/config/weddingConfig";
 import { Card3DTilt } from "./Card3DTilt";
+import { RoyalCornerFlourish } from "./RoyalOrnaments";
 
 export function CardImageGallery() {
   const { cardImages, couple } = weddingConfig;
@@ -70,6 +71,11 @@ export function CardImageGallery() {
             onClick={() => setSelectedImage(activeTab === "cover" ? cardImages.cover : cardImages.details)}
             className="group relative cursor-pointer rounded-2xl overflow-hidden shadow-[0_15px_40px_rgba(74,14,46,0.22)] border-2 border-[#D4AF37]/60 w-full bg-black/5"
           >
+            {/* Corner Ornaments */}
+            <RoyalCornerFlourish position="top-left" />
+            <RoyalCornerFlourish position="top-right" />
+            <RoyalCornerFlourish position="bottom-left" />
+            <RoyalCornerFlourish position="bottom-right" />
             {/* Card Image */}
             <div className="relative w-full aspect-[4/3] sm:aspect-[1.414/1]">
               <Image

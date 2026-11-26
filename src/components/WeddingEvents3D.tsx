@@ -6,6 +6,7 @@ import { Heart, Music, Sun, Utensils, Calendar, Clock, Sparkles } from "lucide-r
 import { weddingConfig } from "@/config/weddingConfig";
 import { Card3DTilt } from "./Card3DTilt";
 import { DiwaliCrackers } from "./DiwaliCrackers";
+import { RoyalCornerFlourish, ShimmerDivider, MandalaBackground } from "./RoyalOrnaments";
 
 export function WeddingEvents3D() {
   const eventsList = [
@@ -70,10 +71,18 @@ export function WeddingEvents3D() {
 
       <Card3DTilt intensity={5} glare={false}>
         <div className="relative rounded-3xl p-1 bg-gradient-to-b from-[#FDE68A]/80 via-white to-[#FBCFE8]/60 shadow-[0_25px_60px_rgba(212,175,55,0.2)]">
-          <div className="rounded-[22px] bg-gradient-to-b from-[#FFFDF9] via-[#FFF6FA] to-[#FCEDF2] p-6 sm:p-10 border border-[#FDE68A]/50 text-center">
+          <div className="rounded-[22px] bg-gradient-to-b from-[#FFFDF9] via-[#FFF6FA] to-[#FCEDF2] p-6 sm:p-10 border border-[#FDE68A]/50 text-center relative overflow-hidden">
+            {/* Corner Gold Flourishes */}
+            <RoyalCornerFlourish position="top-left" />
+            <RoyalCornerFlourish position="top-right" />
+            <RoyalCornerFlourish position="bottom-left" />
+            <RoyalCornerFlourish position="bottom-right" />
+
+            {/* Slow rotating subtle mandala watermark */}
+            <MandalaBackground size={450} opacity={0.06} className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
             
             {/* Header */}
-            <div className="mb-10">
+            <div className="mb-10 relative z-10">
               <div className="flex items-center justify-center gap-2 text-[#9F1239] text-xs font-serif uppercase tracking-[0.25em] font-semibold">
                 <span className="h-[1px] w-8 bg-[#9F1239]/40" />
                 <Heart className="w-3.5 h-3.5 fill-[#BE123C] text-[#BE123C]" />
